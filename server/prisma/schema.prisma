@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String         @id @default(cuid())
+  email               String         @unique
+  password            String
+  name                String?
+  avatar              String?
+  onboardedAt         DateTime?
+  defaultCycleLength  Int            @default(28)
+  defaultPeriodLength Int            @default(5)
+  remindPeriod        Boolean        @default(true)
+  remindOvulation     Boolean        @default(true)
+  remindJournal       Boolean        @default(false)
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  cycles              Cycle[]
+  entries             DailyEntry[]
+  moods               Mood[]
+  refreshTokens       RefreshToken[]
+  deviceTokens        DeviceToken[]
+}
+
+model DeviceToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  platform  String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Cycle {
+  id           String    @id @default(cuid())
+  startDate    DateTime
+  endDate      DateTime?
+  cycleLength  Int?
+  periodLength Int?
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([userId, startDate])
+}
+
+model DailyEntry {
+  id        String    @id @default(cuid())
+  date      DateTime
+  mood      String?
+  sleep     Float?
+  hydration Float?
+  libido    Int?
+  weight    Float?
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  symptoms  Symptom[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([userId, date])
+  @@index([userId, date])
+}
+
+model Symptom {
+  id        String     @id @default(cuid())
+  type      String
+  intensity Int
+  date      DateTime
+  entryId   String
+  entry     DailyEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([entryId])
+}
+
+model Mood {
+  id     String   @id @default(cuid())
+  mood   String
+  note   String?
+  date   DateTime
+  userId String
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+}

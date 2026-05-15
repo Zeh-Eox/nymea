@@ -1,0 +1,75 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './app/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './hooks/**/*.{ts,tsx}',
+  ],
+  darkMode: 'class',
+  presets: [require('nativewind/preset')],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#fdf2f8',
+          100: '#fce7f3',
+          200: '#fbcfe8',
+          300: '#f9a8d4',
+          400: '#f472b6',
+          500: '#ec4899',
+          600: '#db2777',
+          700: '#be185d',
+          800: '#9d174d',
+          900: '#831843',
+        },
+        accent: {
+          100: '#ede9fe',
+          300: '#c4b5fd',
+          500: '#a78bfa',
+          600: '#8b5cf6',
+          700: '#7c3aed',
+        },
+        neutral: {
+          50: '#fafaf9',
+          100: '#f5f5f4',
+          200: '#e7e5e4',
+          300: '#d6d3d1',
+          400: '#a8a29e',
+          500: '#78716c',
+          700: '#44403c',
+          900: '#1c1917',
+        },
+        background: 'rgb(var(--color-background) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+        'surface-muted': 'rgb(var(--color-surface-muted) / <alpha-value>)',
+        blush: 'rgb(var(--color-blush) / <alpha-value>)',
+        border: 'rgb(var(--color-border) / <alpha-value>)',
+        'neutral-soft': 'rgb(var(--color-neutral-soft) / <alpha-value>)',
+        'neutral-strong': 'rgb(var(--color-neutral-strong) / <alpha-value>)',
+        text: {
+          primary: 'rgb(var(--color-text-primary) / <alpha-value>)',
+          secondary: 'rgb(var(--color-text-secondary) / <alpha-value>)',
+          muted: 'rgb(var(--color-text-muted) / <alpha-value>)',
+          inverse: 'rgb(var(--color-text-inverse) / <alpha-value>)',
+        },
+        cycle: {
+          menstrual: '#ef4444',
+          follicular: '#f9a8d4',
+          ovulation: '#8b5cf6',
+          luteal: '#fbbf24',
+        },
+      },
+      borderRadius: {
+        sm: '6px',
+        md: '12px',
+        lg: '20px',
+        xl: '28px',
+        '3xl': '36px',
+      },
+      fontFamily: {
+        sans: ['System'],
+      },
+    },
+  },
+  plugins: [],
+};
